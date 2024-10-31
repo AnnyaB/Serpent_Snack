@@ -9,15 +9,15 @@ WINDOWWIDTH = 640
 WINDOWHEIGHT = 480
 CELLSIZE = 20
 
-# Ensure window dimensions are multiples of cell size
+# Ensuring window dimensions are multiples of cell size
 assert WINDOWWIDTH % CELLSIZE == 0, "Window width must be a multiple of cell size."
 assert WINDOWHEIGHT % CELLSIZE == 0, "Window height must be a multiple of cell size."
 
-# Calculate number of cells
+# Calculating number of cells
 CELLWIDTH = int(WINDOWWIDTH / CELLSIZE)
 CELLHEIGHT = int(WINDOWHEIGHT / CELLSIZE)
 
-# Colors (R, G, B)
+# Colours (R, G, B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
@@ -32,13 +32,13 @@ DOWN = 'down'
 LEFT = 'left'
 RIGHT = 'right'
 
-# Index for the worm's head
+# Indexing for the worm's head
 HEAD = 0
 
 def main():
     global FPSCLOCK, DISPLAYSURF, BASICFONT
 
-    # Initialize Pygame
+    # Initializing Pygame
     pygame.init()
     FPSCLOCK = pygame.time.Clock()
     DISPLAYSURF = pygame.display.set_mode((WINDOWWIDTH, WINDOWHEIGHT))
@@ -52,7 +52,7 @@ def main():
         showGameOverScreen()
 
 def runGame():
-    # Set a random start point for the worm
+    # Setting a random start point for the worm
     startx = random.randint(5, CELLWIDTH - 6)
     starty = random.randint(5, CELLHEIGHT - 6)
     wormCoords = [{'x': startx, 'y': starty},
@@ -60,7 +60,7 @@ def runGame():
                   {'x': startx - 2, 'y': starty}]
     direction = RIGHT
 
-    # Start the apple in a random place
+    # Starting the apple in a random place
     apple = getRandomLocation()
 
     while True:  # Main game loop
@@ -79,7 +79,7 @@ def runGame():
                 elif event.key == K_ESCAPE:
                     terminate()
 
-        # Check if the worm has hit itself or the edge
+        # Checking if the worm has hit itself or the edge
         if (wormCoords[HEAD]['x'] == -1 or wormCoords[HEAD]['x'] == CELLWIDTH or
                 wormCoords[HEAD]['y'] == -1 or wormCoords[HEAD]['y'] == CELLHEIGHT):
             return  # Game over
@@ -88,13 +88,13 @@ def runGame():
             if wormBody['x'] == wormCoords[HEAD]['x'] and wormBody['y'] == wormCoords[HEAD]['y']:
                 return  # Game over
 
-        # Check if worm has eaten an apple
+        # Checking if worm has eaten an apple
         if (wormCoords[HEAD]['x'] == apple['x'] and wormCoords[HEAD]['y'] == apple['y']):
             apple = getRandomLocation()  # Set a new apple somewhere
         else:
             del wormCoords[-1]  # Remove the worm's tail segment
 
-        # Move the worm by adding a segment in the direction it is moving
+        # Moving the worm by adding a segment in the direction it is moving
         if direction == UP:
             newHead = {'x': wormCoords[HEAD]['x'], 'y': wormCoords[HEAD]['y'] - 1}
         elif direction == DOWN:
@@ -104,14 +104,14 @@ def runGame():
         elif direction == RIGHT:
             newHead = {'x': wormCoords[HEAD]['x'] + 1, 'y': wormCoords[HEAD]['y']}
 
-        wormCoords.insert(0, newHead)  # Add new head to the worm
-        DISPLAYSURF.fill(BGCOLOR)  # Fill background
+        wormCoords.insert(0, newHead)  # Adding new head to the worm
+        DISPLAYSURF.fill(BGCOLOR)  # Filling background
         drawGrid()
         drawWorm(wormCoords)
         drawApple(apple)
         drawScore(len(wormCoords) - 3)
-        pygame.display.update()  # Update the display
-        FPSCLOCK.tick(FPS)  # Control the frame rate
+        pygame.display.update()  # Updating the display
+        FPSCLOCK.tick(FPS)  # Controlling  the frame rate
 
 def drawPressKeyMsg():
     pressKeySurf = BASICFONT.render('Press a key to play.', True, DARKGRAY)
